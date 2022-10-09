@@ -20,12 +20,12 @@ def create_polinom(k, kf_list):
         str_elem = str(kf_list[i])+'*x^'+str(k-i)
         if i == 0:
             result = str_elem
-        else:
+        elif kf_list[i] != 0:
             result = result + ' + '+str_elem
     result = result.replace('*x^0', '')
     result = result.replace('x^1', 'x')
     result = result.replace(' 1*x', ' x')
-    result = result +' = 0'
+    result = result + ' = 0'
     return result
 
 # result[::-1]
