@@ -1,0 +1,51 @@
+# 2.A Создайте программу для игры с конфетами человек против человека.
+# 
+# На столе лежит 2021 конфета. Играют два игрока делая ход друг после друга.
+# Первый ход определяется жеребьёвкой. За один ход можно забрать не более чем 28 конфет. 
+# Все конфеты оппонента достаются сделавшему последний ход. 
+# Сколько конфет нужно взять первому игроку, чтобы забрать все конфеты у своего конкурента?
+
+
+def mess_data_print(mes):
+	return input(mes)
+
+
+def main_game(players, N, n):
+	count = 0
+	correct_num = True
+	while N > 0:
+		num = count%2
+		print(f'Игрок №{players[num]} делает свой ход: ')
+		candy_num = int(input())
+		if (candy_num > n) or (candy_num > N):
+			correct_num = False
+			while not correct_num:
+				print('Вы ввели неверное количество монет.')
+				print(f'На столе осталось {N} конфет')
+				print(f'Можно взять не больше {n} конфет за один ход')
+				print('Введите правильное число: ')
+				candy_num = int(input())
+				if N > candy_num <= n:
+					correct_num = True		
+		N -= candy_num
+		print(f'На столе осталось {N} конфет')
+		count +=1
+	return players[(count-1)%2]
+
+print()
+message_player = 'Предлагаю сыграть в игру с конфетами. Победит тот, кто заберёт последние конфеты со стола.\n\
+А теперь познакомимся.\n'
+
+print(message_player)
+player_1 = mess_data_print('Введите имя первого игрока: ')
+player_2 = mess_data_print('Введите имя второго игрока: ')
+players_list = [player_1, player_2]
+candy_start_N = int(mess_data_print('Какое исходное количество конфет на столе: '))
+candy_n = int(mess_data_print('Какое максимальное количество конфет игрок забирает за ход: '))
+
+message_start = f'Приветствую игроков {player_1} и {player_2}.\n\
+На столе {candy_start_N} конфет. Каждый из Вас делает ход по очереди \n\
+и Вы можете брать по {candy_n} за один ход.'
+print(message_start)
+player_win = main_game(players_list, candy_start_N, candy_n)
+print(f'Победитель {player_win}!')
