@@ -1,0 +1,66 @@
+# 2.C Создайте программу для игры с конфетами человек против "умного" бота.
+
+description = '\n------------------\nСуть игры: победитель делает такой ход, чтобы за один цикл, \
+2-мя игроками забиралось со стола (n+1) конфета, где n - максимальный по-условию  \
+забор конфет. Т.е. для выигрыша необходимо сделать первый ход = N % (n+1) \
+Где N - общее количество конфет.\n------------------\n'
+
+print(description)
+
+
+def mess_data_print(mes):
+	return input(mes)
+
+
+def main_game(players, N, n):
+    count = 0
+    correct_num = True
+    while N > 0:
+        num = count % 2
+        if num:
+            print(f'{players[num]} сделайте свой ход: ')
+            candy_num = int(input())
+            if (candy_num > n) or (candy_num > N):
+                correct_num = False
+                while not correct_num:
+                    print('\nВы ввели неверное количество монет.')
+                    print(f'На столе осталось {N} конфет')
+                    print(f'Можно взять не больше {n} конфет за один ход')
+                    print('Введите правильное число: ')
+                    candy_num = int(input())
+                    if N > candy_num <= n:
+                        correct_num = True
+        else:
+            candy_num = N % (n+1)
+            if candy_num > N:
+                print(f'Сейчас хожу я - {players[num]} и беру {N} конфет.')
+            else:
+                print(f'Сейчас хожу я - {players[num]} и беру {candy_num} конфет.')
+        N -= candy_num
+        if N < 0:
+            print(f'\nНа столе осталось 0 конфет')
+        else:
+            print(f'\nНа столе осталось {N} конфет')
+        count +=1
+    return players[(count-1) % 2]
+
+
+message_player = ''
+
+player_2 = mess_data_print('Добрый день! Как Вас зовут?\n')
+player_1 = mess_data_print(f'Я компьютер. Как Вам удобно меня называть?\n')
+players_list = [player_1, player_2]
+candy_start_N = 253 #2021
+candy_n = 28
+
+message_start = f'\nПриветствую Вас {player_2}! Предлагаю сыграть в игру с конфетами.\n\
+Итак, на столе {candy_start_N} конфет. Каждый из нас делает ход по очереди \n\
+и может брать по {candy_n} за один ход. Победитель - кто делает последний ход.\n\
+Первый ход мой!\n\
+Согласны?\n'
+print(message_start)
+key_num = int(input('Если согласны, нажмите клавишу 1 ->'))
+if key_num != 1:
+   exit()
+player_win = main_game(players_list, candy_start_N, candy_n)
+print(f'Победитель {player_win}!')

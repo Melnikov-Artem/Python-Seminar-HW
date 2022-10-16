@@ -1,0 +1,67 @@
+# 3. Создайте программу для игры в "Крестики-нолики".
+
+
+def field_output(field):
+    for i in range(3):
+        print(f'| {field[i*3]} | {field[i*3+1]} | {field[i*3+2]}')
+        print('  —   —   —')
+
+
+def sign_input(sign):
+    message_error = "Ошибка!\nВведите число от 1 до 9"
+    message_busy = 'Это поле занято'
+    correct_sign = False
+    while not correct_sign:
+        player_answer = input(f'\nВыберите поле для {sign}: ')
+        print('\n')
+        try:
+            player_answer = int(player_answer)
+        except:
+            print(message_error)
+            continue
+        if 10 > player_answer > 0:
+            if (str(playing_field[player_answer-1]) not in "XO"):
+                playing_field[player_answer-1] = sign
+                correct_sign = True
+            else:
+                print(message_busy)
+        else:
+            print(message_error)
+
+
+def check_win(cell):
+    number_win = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6),
+                  (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
+    for i in number_win:
+        if cell[i[0]] == cell[i[1]] == cell[i[2]]:
+            return cell[i[0]]
+    return False
+
+
+def game_block(playing_field):
+    count = 0
+    win_status = False
+    while not win_status:
+        field_output(playing_field)
+        if count % 2 == 0:
+            sign_input("X")
+        else:
+            sign_input("O")
+        count += 1
+        check_flag = check_win(playing_field)
+        if check_flag:
+            field_output(playing_field)
+            print(f'\nПоздравляем!\nВыиграл знак {check_flag}\n')
+            win_status = True
+            break
+        if count == 9:
+            field_output(playing_field)
+            print('\nУ Вас ничья.\n')
+            break
+
+
+message_start = '\nПоиграем в крестики нолики!\n\
+Первый ходит Х\n'
+print(message_start)
+playing_field = list(range(1, 10))
+game_block(playing_field)
